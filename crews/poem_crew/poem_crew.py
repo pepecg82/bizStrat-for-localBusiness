@@ -7,8 +7,8 @@ from crewai.project import CrewBase, agent, crew, task
 
 
 @CrewBase
-class PoemCrew:
-    """Poem Crew"""
+class LocalBoostCrew:
+    """Local Boost Crew"""
 
     # Learn more about YAML configuration files here:
     # Agents: https://docs.crewai.com/concepts/agents#yaml-configuration-recommended
@@ -83,7 +83,7 @@ class PoemCrew:
 
     @crew
     def crew(self) -> Crew:
-        """Creates the Research Crew"""
+        """Creates the Crew"""
         # To learn how to add knowledge sources to your crew, check out the documentation:
         # https://docs.crewai.com/concepts/knowledge#what-is-knowledge
 

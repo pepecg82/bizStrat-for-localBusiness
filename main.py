@@ -3,7 +3,7 @@ import os
 from random import randint
 from pydantic import BaseModel
 from crewai.flow import Flow, listen, start, and_
-from crews.poem_crew.poem_crew import PoemCrew
+from crews.poem_crew.poem_crew import LocalBoostCrew
 from tools.utilities import (
     get_placeID,
     get_place_info,
@@ -18,7 +18,7 @@ print("Google Maps")
 gmaps_api_key = os.environ["GOOGLE_MAPS_KEY"]
 
 
-class PoemState(BaseModel):
+class LocalBoostState(BaseModel):
     plc_id: str = ""
     gMapsURI: str = ""
     biz_name: str = ""
@@ -30,11 +30,11 @@ class PoemState(BaseModel):
     get_competitors_info: list = []
     competitors_high_rating_reviews: list = []
     competitors_low_rating_reviews: list = []
-    poem: str = ""
+    strat_doc: str = ""
     user_biz_name: str = ""
 
 
-class PoemFlow(Flow[PoemState]):
+class LocalBoostFlow(Flow[LocalBoostState]):
 
     @start()
     def get_placeID(self):
@@ -83,10 +83,10 @@ class PoemFlow(Flow[PoemState]):
             )
 
     @listen(and_(get_high_rating_reviews, get_low_rating_reviews, get_comps_data))
-    def generate_poem(self):
-        print("Creating Report")
+    def generate_stratDoc(self):
+        print("Creating Strategy Document")
         result = (
-            PoemCrew()
+            LocalBoostCrew()
             .crew()
             .kickoff(
                 inputs={
@@ -100,30 +100,31 @@ class PoemFlow(Flow[PoemState]):
         )
 
         # print("Report Generated", result.raw)
-        self.state.poem = result
+        self.state.strat_doc = result
 
-    @listen(generate_poem)
-    def save_poem(self):
-        print("Saving report")
-        all_task_outputs = self.state.poem.tasks_output
-        for i in range(len(all_task_outputs)):
-            print(i + 1, all_task_outputs[i], "\n")
-        # with open("report.md", "w", encoding="utf-8") as f:
-        # f.write(all_task_outputs)
-        return self.state.poem
+    @listen(generate_stratDoc)
+    def save_stratDoc(self):
+        print("Saving Strategy Document")
+        # all_task_outputs = self.state.strat_doc.tasks_output
+        # for i in range(len(all_task_outputs)):
+        # print(i + 1, all_task_outputs[i], "\n")
+        with open("stratDoc.md", "w", encoding="utf-8") as f:
+            f.write(self.state.strat_doc.raw)
+
+        return self.state.strat_doc
 
 
 def kickoff(user_biz_name):
     print("kickoff", user_biz_name)
-    poem_flow = PoemFlow()
-    poem_flow.state.user_biz_name = user_biz_name
+    localBoost_flow = LocalBoostFlow()
+    localBoost_flow.state.user_biz_name = user_biz_name
     # poem_flow.context["user_biz_name"] = user_biz_name
-    return poem_flow.kickoff()
+    return localBoost_flow.kickoff()
 
 
 def plot():
-    poem_flow = PoemFlow()
-    poem_flow.plot()
+    localBoost_flow = LocalBoostFlow()
+    localBoost_flow.plot()
 
 
 if __name__ == "__main__":

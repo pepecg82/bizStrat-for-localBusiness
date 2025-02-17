@@ -8,11 +8,11 @@ st.write("Hello, world! This is a simple Streamlit front-end.")
 user_biz_name = st.text_input("Enter a Business Name:")
 if st.button("Submit"):
     # Call the function from main.py
-    st.write("Creating Report...")
+    st.write("Creating Strategy Document...")
     result = kickoff(user_biz_name)
 
-    print("---- Final Output ----")
-    st.write("---- Final Output ----")
+    print("---- Strategy Document ----")
+    st.write("---- Strategy Document ----")
     st.write(result)
     # ... plus any other logic or Streamlit code
 
