@@ -103,7 +103,7 @@ def chrome_settings():
 
 def get_high_rat_revs(googleMapsUri):
     """
-    Gets the top 10 highest rated reviews. Change the number of reviews in num_revs
+    Gets the top 'num_revs' highest rated reviews. Change the number of reviews in num_revs
     Returns 'highest_rating_reviews' list
     """
     num_revs = 3
@@ -319,9 +319,13 @@ def get_comps_data(googleMapsUri, og_place):
     # Initialize list to save competitors data
     competitors_all_data = []
     total_poi_collected = 0
+    # define how many competitors you want to get reviews from. Below you will be able to set how many reviews you want from each competitor. The more you get, the better the
+    # insights you'll get. Note that more competitors and reviews will increase input tokens and overall processing time
+    number_of_competitors = 1
+
     i = 3
 
-    while total_poi_collected < 1:
+    while total_poi_collected < number_of_competitors:
 
         print(total_poi_collected + 1)
 
@@ -466,9 +470,11 @@ def get_comps_data(googleMapsUri, og_place):
 
             count = 1
             new_comp_highest_revs = []
+            number_of_reviews = 4  # set how many reviews you want from each competitor. The more you get, the better the
+            # insights you'll get. Note that more reviews will increase input tokens and overall processing time
 
             # this 'for' goes through the first 5 highest rating reviews
-            for c in range(1, 4):
+            for c in range(1, number_of_reviews):
 
                 # more_btn_path - "More" button expands window to see full review. Not all reviews have a "More" button. See "try" below
                 more_btn_path = (
@@ -552,7 +558,7 @@ def get_comps_data(googleMapsUri, og_place):
             new_comp_lowest_revs = []
 
             # this 'for' goes through the first 5 lowest rating reviews
-            for c in range(1, 4):
+            for c in range(1, number_of_reviews):
 
                 # more_btn_path - "More" button expands window to see full review. Not all reviews have a "More" button. See "try" below
                 more_btn_path = (
