@@ -1,0 +1,107 @@
+create_strength_strategy:
+  description: >
+    Understand and analyze the highest rating reviews in {high_rating_reviews}
+    Once you understood the reviews, please create a 10 item list of the strenghts identified in the reviews.
+    Do not create items for very similar topics. If very similar topics found, aggregate them into one item.
+    You have to categorize each of the strengths, this will be labeled as "category"
+    For each of the list items, you will provide business advice on what the business owner must do to keep doing it and how.
+    This advice will be labeled as "Keep Doing".
+    For each of the list items, you will provide business advice on what the business owner must do to amplify it.
+    This advice will be labeled as "Amplify".
+  expected_output: >
+    A list of 10 dicts with the following structure:
+    [
+      {"strength": "", 
+      "category": "",
+      "Keep Doing": "",
+      "Amplify": ""}
+    ]
+  agent: strengths_strategyzer
+
+create_weakness_strategy:
+  description: >
+    Understand and analyze the lowest rating reviews in {low_rating_reviews}
+    Once you understood the reviews, please create a 10 item list of the weaknesses identified in the reviews.
+    Do not create items for very similar topics. If very similar topics found, aggregate them into one item.
+    You have to categorize each of the weaknesses, this will be labeled as "category"
+    For each of the list items, you will provide business advice on what the business owner must do to stop doing it,
+    This advice will be labeled as "Stop Doing"
+    For each of the list items, you will provide business advice on what the business owner must do to fix it,
+    This advice will be labeled as "Fix It"
+    For each of the list items, you will provide business advice on what the business owner must do to turn it into strength,
+    This advice will be labeled as "Turn into Strength"
+  expected_output: >
+    A list of 10 dicts with the following structure:
+    [
+      {"weakness": "", 
+      "category": "",
+      "Stop Doing": "",
+      "Turn into Strength": ""}
+    ]
+  agent: weaknesses_strategyzer
+
+analyze_competitors_strengths:
+  description: >
+    Understand and analyze competitors highest rating reviews in {comps_high_rating_reviews} 
+    Once you understood the reviews, please create a 10-item list, with the strengths identified in the competitors.
+    Do not create items for very similar topics. If very similar topics found, aggregate them into one item.
+    You have to categorize each of the strengths, this will be labeled as "category".
+    For each of the list items, you have to say if it's something the business owner is already doing, this will be 
+    labeled as "Doing". If business owner is already doing it, it a "Yes", if the business owner is not doing it, it's a "No".
+    Next, if the previous label was a "No" for that specific item, you will provide business advice on what the 
+    business owner must do to start doing it in its own business, this will be labeled as "Implement"
+    competitors lowest rating reviews in {comps_low_rating_reviews}.
+  expected_output: >
+    A list of 10 dicts with the following structure:
+    [
+      {"strengths": "", 
+      "category": "",
+      "Doing": "",
+      "Implement": ""}
+    ]
+  agent: competition_strengths_strategyzer
+
+analyze_competitors_weaknesses:
+  description: >
+    Understand and analyze competitors lowest rating reviews in {comps_low_rating_reviews} 
+    Once you understood the reviews, please create a 10-item list, with the weaknesses identified in the competitors.
+    Do not create items for very similar topics. If very similar topics found, aggregate them into one item.
+    You have to categorize each of the weaknesses, this will be labeled as "category".
+    For each of the list items, you will provide business advice on what the business owner must do to avoid that weakness
+    in its own business, this will be labeled as "Implement"
+  expected_output: >
+    A list of 10 dicts with the following structure:
+    [
+      {"weaknesses": "", 
+      "category": "",
+      "Implement": ""}
+    ]
+  agent: competition_weaknesses_strategyzer
+
+put_everything_together:
+  description: >
+    Review and understand the context you got and write a fully fledged report. create a brief overview of each of the contexts. Organize and lay it all out in the following structure:
+    For each context:
+     1.Title. Create a title for the section, based on the context and description of the task
+     2.Overview. 
+     3.Table. A table with the results of the context
+  expected_output: >
+    {biz_name} on top as a Heading.
+    
+    First Section will be "Strengths Strategy".
+    Below this, write a 5 line overview analizing and explaining this context.
+    Below this, show the complete output you got from this context (the list of 10 dicts), displayed in a table. Show the 10 items.
+    Second Section will be "Weakness Strategy".
+    Below this, write a 5 line overview analizing and explaining this context.
+    Below this, show the complete output you got from this context (the list of 10 dicts), displayed in a table. Show the 10 items.
+    Third Section will be "Analyze Competitors Strengths".
+    Below this, write a 5 line overview analizing and explaining this context.
+    Below this, show the complete output you got from analyze_competitors_strengths, displayed in a table. Show the 10 items.
+    Fourth Section will be "Analyze Competitors Weaknesses".
+    Below this, write a 5 line overview analizing and explaining this context.
+    Below this, show the complete output you got from analyze_competitors_weaknesses, displayed in a table. Show the 10 items.
+    Formatted as markdown without '```'
+  agent: document_creator
+  context: [create_strength_strategy, create_weakness_strategy, analyze_competitors_strengths, analyze_competitors_weaknesses]
+
+
