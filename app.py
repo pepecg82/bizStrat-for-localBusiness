@@ -2,8 +2,10 @@ from main import kickoff
 import streamlit as st
 
 
-st.title("Local Business AI")
-st.write("Hello, world! This is a simple Streamlit front-end.")
+st.title("Local Boost")
+st.write(
+    "Turn local reviews into real-world strategies—get instant insights to outsmart your competition and boost your business today."
+)
 
 user_biz_name = st.text_input("Enter a Business Name:")
 if st.button("Submit"):

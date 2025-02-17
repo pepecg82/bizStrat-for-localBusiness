@@ -3,7 +3,7 @@ import os
 from random import randint
 from pydantic import BaseModel
 from crewai.flow import Flow, listen, start, and_
-from crews.poem_crew.poem_crew import LocalBoostCrew
+from crews.localBoost_crew.localBoost_crew import LocalBoostCrew
 from tools.utilities import (
     get_placeID,
     get_place_info,
