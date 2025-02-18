@@ -97,6 +97,8 @@ def chrome_settings():
     else:
         options = Options()
         options.headless = True
+        options.add_experimental_option("prefs", {"intl.accept_languages": "es"})
+        options.add_argument("--lang=es")
         print("Running Headful Chrome...")
         return options
 
@@ -106,7 +108,7 @@ def get_high_rat_revs(googleMapsUri):
     Gets the top 'num_revs' highest rated reviews. Change the number of reviews in num_revs
     Returns 'highest_rating_reviews' list
     """
-    num_revs = 3
+    num_revs = 10
     options = chrome_settings()
 
     # Initialize the driver instance
@@ -135,14 +137,24 @@ def get_high_rat_revs(googleMapsUri):
     input("Press Enter once you've finished inspecting...")
 
     # Clicks on 'Sort'
-    menu_bt = wait.until(
-        EC.element_to_be_clickable(
-            (
-                By.XPATH,
-                "//*[@id='QA0Szd']/div/div/div[1]/div[2]/div/div[1]/div/div/div[2]/div[7]/div[2]/button",
+    try:
+        menu_bt = wait.until(
+            EC.element_to_be_clickable(
+                (
+                    By.XPATH,
+                    "//*[@id='QA0Szd']/div/div/div[1]/div[2]/div/div[1]/div/div/div[2]/div[7]/div[2]/button",
+                )
             )
         )
-    )
+    except:
+        menu_bt = wait.until(
+            EC.element_to_be_clickable(
+                (
+                    By.XPATH,
+                    "//*[@id='QA0Szd']/div/div/div[1]/div[2]/div/div[1]/div/div/div[4]/div[7]/div[2]/button",
+                )
+            )
+        )
     menu_bt.click()
 
     # Clicks 'Highest rating' ([3])
@@ -197,7 +209,7 @@ def get_low_rat_revs(googleMapsUri):
     Gets the top 10 lowest rated reviews. Change the number of reviews in num_revs
     Returns 'lowest_rating_reviews' list
     """
-    num_revs = 3
+    num_revs = 10
     options = chrome_settings()
 
     # Initialize the driver instance
@@ -327,7 +339,7 @@ def get_comps_data(googleMapsUri, og_place):
     total_poi_collected = 0
     # define how many competitors you want to get reviews from. Below you will be able to set how many reviews you want from each competitor. The more you get, the better the
     # insights you'll get. Note that more competitors and reviews will increase input tokens and overall processing time
-    number_of_competitors = 1
+    number_of_competitors = 5
 
     i = 3
 
