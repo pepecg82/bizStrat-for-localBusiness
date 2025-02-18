@@ -120,6 +120,8 @@ def get_high_rat_revs(googleMapsUri):
     # Gets place URI
     driver.get(googleMapsUri)
 
+    input("Press Enter once you've finished inspecting...")
+
     # Clicks on 'Reviews'
     wait.until(
         EC.element_to_be_clickable(
@@ -129,6 +131,8 @@ def get_high_rat_revs(googleMapsUri):
             )
         )
     ).click()
+
+    input("Press Enter once you've finished inspecting...")
 
     # Clicks on 'Sort'
     menu_bt = wait.until(
@@ -216,6 +220,8 @@ def get_low_rat_revs(googleMapsUri):
             )
         )
     ).click()
+
+    input("Press Enter once you've finished inspecting...")
 
     # Clicks on 'Sort'
     try:
