@@ -97,8 +97,8 @@ def chrome_settings():
     else:
         options = Options()
         options.headless = True
-        options.add_experimental_option("prefs", {"intl.accept_languages": "es"})
-        options.add_argument("--lang=es")
+        # options.add_experimental_option("prefs", {"intl.accept_languages": "es"}) ###### Uncomment this and the line below if want to have Chrome display website in spanish
+        # options.add_argument("--lang=es")
         print("Running Headful Chrome...")
         return options
 
